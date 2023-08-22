@@ -1,10 +1,12 @@
 const express = require('express');
-const { getAllPoke } = require("./api-services")
+const { poke_db } = require("./database")
 const cors = require('cors');
 const PORT = 5000
 
 const app = express();
-app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.get("/", (req,res)=>{
     res.status(200)
@@ -14,7 +16,17 @@ app.get("/", (req,res)=>{
 app.get("/pokemons",async (req,res)=>{
     // const data = await getAllPoke();
     res.status(200);
-    res.send(data);    
+    res.send(poke_db);    
+});
+
+app.post("/pokemons",async (req,res)=>{
+    const {body} = req;
+    poke_db.count +=1;
+    poke_db.results.push(body);
+    console.log("test added",poke_db.results.pop())
+    // const data = await getAllPoke();
+    // res.status(200);
+    // res.send(poke_db);    
 });
 
 app.listen(PORT,()=>{
