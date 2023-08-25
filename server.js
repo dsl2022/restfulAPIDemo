@@ -34,7 +34,7 @@ app.put("/pokemons/:id",(req,res)=>{
    const response = updateItemById(req.params.id,poke_db)
    if(response){
     res.status(200);
-    res.send({message:"success"})
+    res.send({message:"update success"})
    }else{
     res.status(400);
     res.send({message:"update failed"})
