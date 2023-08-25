@@ -1,6 +1,7 @@
 const express = require('express');
 const { poke_db } = require("./database")
 const cors = require('cors');
+const {getAll,addItem,getById, updateItemById,deleteItemById} = require("./db-services");
 const PORT = 5000
 
 const app = express();
@@ -25,9 +26,24 @@ app.post("/pokemons",async (req,res)=>{
     poke_db.results.push(body);
     console.log("test added",poke_db.results.pop())
     // const data = await getAllPoke();
-    // res.status(200);
-    // res.send(poke_db);    
+    res.status(200);
+    res.send(JSON.stringify(body)+"is added");    
 });
+
+app.put("/pokemons/:id",(req,res)=>{    
+   const response = updateItemById(req.params.id,poke_db)
+   if(response){
+    res.status(200);
+    res.send({message:"success"})
+   }else{
+    res.status(400);
+    res.send({message:"update failed"})
+   }
+})
+
+app.delete("/pokemons/:id",(req,res)=>{
+
+})
 
 app.listen(PORT,()=>{
     console.log(`server is running on ${PORT}`)
